@@ -34,6 +34,7 @@ export class WebViewInfo {
     this.viewTag = viewTag
     this.uniqueId = viewTag;
   }
+
 }
 
 function waitUtilControllerAttached() : Promise<number> {
