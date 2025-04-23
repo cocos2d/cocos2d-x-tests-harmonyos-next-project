@@ -1,6 +1,6 @@
 import worker, { ThreadWorkerGlobalScope, MessageEvents } from '@ohos.worker';
 import nativeRender from "libnativerender.so";
-import { ContextType } from "@ohos/libSysCapabilities"
+import { ContextType, DeviceUtils } from "@ohos/libSysCapabilities"
 import { VideoPlayer } from "@ohos/libSysCapabilities"
 import { ApplicationManager } from "@ohos/libSysCapabilities"
 import { CocosEditBox } from "@ohos/libSysCapabilities"
@@ -32,8 +32,8 @@ workerPort.onmessage = (e: MessageEvents) => {
             CocosEditBox.init(workerPort);
             JumpManager.init(workerPort);
             WebView.init(workerPort);
-            VideoPlayer.init(workerPort);
             ApplicationManager.init(workerPort);
+            VideoPlayer.init(workerPort);
             napiContext.initAsyncInfo();
             break;
         case "abilityContextInit":
@@ -72,7 +72,12 @@ workerPort.onmessage = (e: MessageEvents) => {
         case "exit":
             appLifecycle.onBackPress();
             break;
+        case "updateSafeArea":
+            DeviceUtils.updateWorkerSafeArea(e.data.safeArea);
+            break;
         default:
             console.error("cocos worker: message type unknown")
     }
 }
+
+
