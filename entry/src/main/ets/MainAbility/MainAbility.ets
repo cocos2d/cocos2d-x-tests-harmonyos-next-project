@@ -1,12 +1,12 @@
-import web_webview from '@ohos.web.webview';
+import window from '@ohos.window';
+import UIAbility from '@ohos.app.ability.UIAbility';
 import nativeRender from "libnativerender.so";
 import { ContextType, DeviceUtils  } from "@ohos/libSysCapabilities"
 import { GlobalContext,GlobalContextConstants} from "@ohos/libSysCapabilities"
-import { AbilityConstant, UIAbility, Want } from '@kit.AbilityKit'
-import { window } from '@kit.ArkUI';
 import { BusinessError } from '@kit.BasicServicesKit';
-import { display } from '@kit.ArkUI';
 import { WorkerManager } from '../workers/WorkerManager';
+import Want from '@ohos.app.ability.Want';
+import AbilityConstant from '@ohos.app.ability.AbilityConstant';
 
 const nativeAppLifecycle: nativeRender.CPPFunctions = nativeRender.getContext(ContextType.APP_LIFECYCLE);
 const rawFileUtils: nativeRender.CPPFunctions = nativeRender.getContext(ContextType.RAW_FILE_UTILS);
@@ -26,7 +26,7 @@ export default class MainAbility extends UIAbility {
 
     onWindowStageCreate(windowStage: window.WindowStage): void {
         // Main window is created, set main page for this ability
-        windowStage.loadContent('pages/Index', (err, data) => {
+        windowStage.loadContent('pages/Index', (err:BusinessError, data) => {
             if (err.code) {
                 return;
             }
@@ -66,7 +66,7 @@ export default class MainAbility extends UIAbility {
             }
         })
 
-        windowStage.on("windowStageEvent", (data) => {
+        windowStage.on("windowStageEvent", (data:window.WindowStageEventType) => {
             let stageEventType: window.WindowStageEventType = data;
             switch (stageEventType) {
                 case window.WindowStageEventType.RESUMED:
